@@ -53,27 +53,28 @@ For the seasonal prediction model with LSTM, 3 programs were developed. <br />
 •	Filter case “0” from the classification that represents the atmospheric phenomenon we want to study (forest fires) and model (eliminate all records that are not identified as case “0”). After running the program, new files will be generated with the data that will be used in LSTM. <br />
 **principal.py - Main Program:** The main program executes the following actions:
 <br />
-•	Import libraries: necessary for the execution of the program.
+•	**Import libraries:** necessary for the execution of the program.
 <br />
-•	Reading filtered data: “filtrado2001-2020.csv” and “filtrado2022.csv” and storing them in the fire_records and fires_2022 dataframes.
+•	**Reading filtered data:** “filtrado2001-2020.csv” and “filtrado2022.csv” and storing them in the fire_records and fires_2022 dataframes.
 <br />
-•	Format change: from acq_date (date) to date format: We convert the data in the acq_date column to a real date format. This makes it easier to further process the date data.
+•	**Format change:** from acq_date (date) to date format: We convert the data in the acq_date column to a real date format. This makes it easier to further process the date data.
 <br />
-•	Initial plot of the data: We create a figure in which the coordinates where fires occurred from 2001 to 2020 are plotted. The data from the latitude and longitude columns of the historical_fires dataframe are used.
+•	**Initial plot of the data:** We create a figure in which the coordinates where fires occurred from 2001 to 2020 are plotted. The data from the latitude and longitude columns of the historical_fires dataframe are used.
 <p align="center">
  <img width="227" alt="image" src="https://github.com/AxelCamperoVega/Forest-Fire-Prediction-System/assets/43591999/c0d10123-22ed-40c1-8be0-9fd39f7c65d7"><br />
   <sup><sub> Initial data plotting!</sub></sup>
 </p>
 
-•	Count number of fires per day: Based on the data filtered and using the data filtered, the next thing is to count the number of fires per day both from the historical records and from the year 2021 and 2022. To achieve this, the program Groups records by date and counts how many records correspond to each date. Then add the heading number of fires to the column. This processed data is saved in other files.
+•	**Count number of fires per day:** Based on the data filtered and using the data filtered, the next thing is to count the number of fires per day both from the historical records and from the year 2021 and 2022. To achieve this, the program Groups records by date and counts how many records correspond to each date. Then add the heading number of fires to the column. This processed data is saved in other files.
 <br />
-•	Filling in dates without fires: From the processed data, it is observed that on several dates of the year, no forest fires occurred, which is why there is a discontinuity in the temporal data. These missing dates will be added and padded with 0 as part of your preparation for LSTM training. We change the index of the data which will become the acq_date column. We use the reindex function to combine our data, with the defined date range, and fill in the missing dates in our data with 0s.
+•	**Filling in dates without fires:** From the processed data, it is observed that on several dates of the year, no forest fires occurred, which is why there is a discontinuity in the temporal data. These missing dates will be added and padded with 0 as part of your preparation for LSTM training. We change the index of the data which will become the acq_date column. We use the reindex function to combine our data, with the defined date range, and fill in the missing dates in our data with 0s.
 <br />
+<p align="center"> <img width="290" alt="image" src="https://github.com/AxelCamperoVega/Forest-Fire-Prediction-System/assets/43591999/0683b65f-b69e-45c9-86ca-199db8eb05fa">
+ <br />
+  <sup><sub>  Re-indexing data</sub></sup>
+</p>
 
- 
-#### Re-indexing data <br />
-
-•	Plot number of fires by date: The program shows a graph of the number of fires by date based on the data obtained in the previous point, both historical data (2001-2020) and the year 2022 as a test. <br />
+•	**Plot number of fires by date:** The program shows a graph of the number of fires by date based on the data obtained in the previous point, both historical data (2001-2020) and the year 2022 as a test. <br />
 
 ##### B.	LSTM implementation <br />
 To use the LSTM algorithm, we need the data (number of fires per day) to be in the range 0 to 1 so it needs scaling. For the scaling to be the same, we must unite the training and test data into a single set that we will call the data set; we do this by concatenating both sets. Then we define the new scale (0,1) and transform the dataset to the new scale. Once the dataset is scaled, we separate it again to have two different sets: train and test.
